@@ -91,17 +91,27 @@
 
 <script>
 function payNow() {
-  const amount = document.getElementById("amount").value || 1;
+  const amountInput = document.getElementById("amount");
+  const amount = amountInput.value.trim();
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+
+  // Validation
+  if (amount === "" || Number(amount) <= 0) {
+    alert("Please enter a valid amount to proceed.");
+    amountInput.focus();
+    return; // STOP here
+  }
 
   if (isMobile) {
     window.location.href =
       `upi://pay?pa=merchant@upi&pn=QuickPay&am=${amount}&cu=INR`;
   } else {
+    alert("Please open this link on your mobile to complete payment via UPI.");
     window.open("https://pay.google.com", "_blank");
   }
 }
 </script>
+
 
 </body>
 </html>
