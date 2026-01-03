@@ -80,7 +80,20 @@
   <h2>Quick Pay</h2>
   <p>Pay securely using UPI</p>
 
-  <input type="number" id="amount" placeholder="Enter amount (₹)" />
+  <!-- UPI ID -->
+  <input
+    type="text"
+    id="upiId"
+    placeholder="Enter UPI ID (example@upi)"
+  />
+
+  <!-- Amount -->
+  <input
+    type="number"
+    id="amount"
+    placeholder="Enter amount (₹)"
+    min="1"
+  />
 
   <button onclick="payNow()">Pay Now</button>
 
@@ -88,6 +101,7 @@
     Powered by UPI
   </div>
 </div>
+
 
 <script>
 function payNow() {
