@@ -105,20 +105,31 @@
 
 <script>
 function payNow() {
+  const upiInput = document.getElementById("upiId");
   const amountInput = document.getElementById("amount");
+
+  const upiId = upiInput.value.trim();
   const amount = amountInput.value.trim();
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-  // Validation
-  if (amount === "" || Number(amount) <= 0) {
-    alert("Please enter a valid amount to proceed.");
+  // ✅ Correct UPI validation
+  const upiRegex = /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z0-9]{2,}$/;
+
+  if (!upiId || !upiRegex.test(upiId)) {
+    alert("Please enter a valid UPI ID (example: name@upi, name@okaxis).");
+    upiInput.focus();
+    return;
+  }
+
+  if (!amount || Number(amount) <= 0) {
+    alert("Please enter a valid amount.");
     amountInput.focus();
-    return; // STOP here
+    return;
   }
 
   if (isMobile) {
     window.location.href =
-      `upi://pay?pa=merchant@upi&pn=QuickPay&am=${amount}&cu=INR`;
+      `upi://pay?pa=${encodeURIComponent(upiId)}&pn=QuickPay&am=${amount}&cu=INR`;
   } else {
     alert("Please open this link on your mobile to complete payment via UPI.");
     window.open("https://pay.google.com", "_blank");
@@ -127,5 +138,7 @@ function payNow() {
 </script>
 
 
+
 </body>
 </html>
+
